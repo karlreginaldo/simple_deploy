@@ -1,3 +1,6 @@
+## 0.8.0
+- Show that android is auto selected if not on a mac
+
 ## 0.7.0
 - bug fixes on mac check
 

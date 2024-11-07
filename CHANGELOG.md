@@ -1,3 +1,8 @@
+## 0.10.0
+- Shared some code across iOS and Android builds that is common
+- Added to documentation
+- Fix for ios paths not working
+
 ## 0.9.0
 - Improved documentation
 

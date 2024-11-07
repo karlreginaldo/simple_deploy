@@ -24,8 +24,8 @@ Deploy to Android Play Store Test Track
 Install the dependency into your `pubspec.yaml` with the follow
 
 ```
-dev_dependencies
-  simple_deploy: latest_version (e.g. ^0.8.0)
+dev_dependencies:
+  simple_deploy: latest_version # e.g. ^0.8.0
 ```
 
 Create a `deploy.yaml` file at the root of your project and configure it

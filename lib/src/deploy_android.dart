@@ -1,44 +1,26 @@
-#!/usr/bin/env dart
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:googleapis/androidpublisher/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:yaml/yaml.dart';
 
-// Load configuration from a YAML file
-Future<YamlMap> loadConfig(String workingDirectory) async {
-  final configFile = File('$workingDirectory/deploy.yaml');
-  final configContent = await configFile.readAsString();
-  final yamlMap = loadYaml(configContent);
-
-  // Manually convert YamlMap to Map<String, dynamic>
-  final Map<String, dynamic> configMap = {};
-  for (var key in yamlMap.keys) {
-    configMap[key] = yamlMap[key];
-  }
-
-  return configMap['android'];
-}
+import 'common.dart';
 
 void deploy() async {
   final workingDirectory = Directory.current.path;
-  final config = await loadConfig(workingDirectory);
+  final config = await loadConfig(workingDirectory, 'android');
   final credentialsFile0 = config['credentialsFile'];
   final packageName = config['packageName'];
   final whatsNew = config['whatsNew'];
 
   DateTime startTime = DateTime.now();
 
-  print('Clean the project');
-  var result = await Process.run('flutter', ['clean'], workingDirectory: workingDirectory, runInShell: true);
-  if (result.exitCode != 0) {
-    print('flutter clean failed: ${result.stderr}');
+  bool success = await flutterClean(workingDirectory);
+  if (!success){
     return;
   }
 
   print('Build app bundle');
-  result = await Process.run('flutter', ['build', 'appbundle'], workingDirectory: workingDirectory, runInShell: true);
+  var result = await Process.run('flutter', ['build', 'appbundle'], workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
     print('flutter build appbundle failed: ${result.stderr}');
     return;

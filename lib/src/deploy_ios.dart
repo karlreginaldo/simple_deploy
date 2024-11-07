@@ -1,7 +1,6 @@
-#!/usr/bin/env dart
-
 import 'dart:io';
-import 'package:yaml/yaml.dart';
+
+import 'common.dart';
 
 // Function to handle errors
 void handleError(String message) {
@@ -9,27 +8,13 @@ void handleError(String message) {
   exit(1);
 }
 
-// Load configuration from a YAML file
-Future<YamlMap> loadConfig(String workingDirectory) async {
-  final configFile = File('$workingDirectory/deploy.yaml');
-  final configContent = await configFile.readAsString();
-  final yamlMap = loadYaml(configContent);
 
-  // Manually convert YamlMap to Map<String, dynamic>
-  final Map<String, dynamic> configMap = {};
-  for (var key in yamlMap.keys) {
-    configMap[key] = yamlMap[key];
-  }
-
-  return configMap['ios'];
-}
 
 
 
 void deploy() async {
   final workingDirectory = Directory.current.path;
-
-  final config = await loadConfig(workingDirectory);
+  final config = await loadConfig(workingDirectory, 'ios');
 
   // Run iOS deployment
   final apiKey = config['apiKey'];
@@ -37,22 +22,23 @@ void deploy() async {
 
   DateTime startTime = DateTime.now();
 
-  print('Clean the project');
-  var result = await Process.run('flutter', ['clean'], workingDirectory: workingDirectory, runInShell: true);
-  if (result.exitCode != 0) {
-    handleError('flutter clean failed: ${result.stderr}');
+  bool success = await flutterClean(workingDirectory);
+  if (!success){
+    return;
   }
 
-  print('Build the Flutter IPA');
-  result = await Process.run('flutter', ['build', 'ipa'], workingDirectory: workingDirectory, runInShell: true);
+  print('Build the Flutter .ipa');
+  var result = await Process.run('flutter', ['build', 'ipa'], workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
     handleError('flutter build ipa failed: ${result.stderr}');
   }
+  print('Built .ipa file');
+
 
   print('Uploading the IPA to TestFlight');
   // Replace with the actual command for uploading to TestFlight, e.g., using Fastlane or another tool
   result = await Process.run(
-      'xcrun', ['altool', '--upload-app', '--type', 'ios', '--file', 'build/ios/ipa/*.ipa', '--apiKey', apiKey, '--apiIssuer', apiIssuer],
+      'xcrun', ['altool', '--upload-app', '--type', 'ios', '--file', '$workingDirectory/build/ios/ipa/*.ipa', '--apiKey', apiKey, '--apiIssuer', apiIssuer],
       workingDirectory: workingDirectory, runInShell: true
   );
   if (result.exitCode != 0) {

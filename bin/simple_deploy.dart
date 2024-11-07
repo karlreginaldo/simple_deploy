@@ -40,10 +40,13 @@ void main(List<String> arguments) async {
 
 // Prompt the user to choose iOS or Android for deployment
 Future<void> promptAndDeploy() async {
-  print('Choose deployment target:');
-  print('1. Android');
   if (Platform.isMacOS) {
+    print('Choose deployment target:');
+    print('1. Android');
     print('2. iOS');
+  }
+  else{
+    print('Automatically selecting android build and deploy');
   }
 
   // Read user input

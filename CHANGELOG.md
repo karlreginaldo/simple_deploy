@@ -1,3 +1,6 @@
+## 0.11.0
+- Attempt to fix deployments on iOS not working
+
 ## 0.10.0
 - Shared some code across iOS and Android builds that is common
 - Added to documentation

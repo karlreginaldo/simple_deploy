@@ -27,7 +27,7 @@ void deploy() async {
     return;
   }
 
-  print('Build the Flutter .ipa');
+  print('Build the iOS .ipa');
   var result = await Process.run('flutter', ['build', 'ipa'], workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
     handleError('flutter build ipa failed: ${result.stderr}');
@@ -38,7 +38,7 @@ void deploy() async {
   print('Uploading the IPA to TestFlight');
   // Replace with the actual command for uploading to TestFlight, e.g., using Fastlane or another tool
   result = await Process.run(
-      'xcrun', ['altool', '--upload-app', '--type', 'ios', '--file', '$workingDirectory/build/ios/ipa/*.ipa', '--apiKey', apiKey, '--apiIssuer', apiIssuer],
+      'xcrun', ['altool', '--upload-app', '--type', 'ios', '--file', '$workingDirectory/build/ios/ipa/app.ipa', '--apiKey', apiKey, '--apiIssuer', apiIssuer],
       workingDirectory: workingDirectory, runInShell: true
   );
   if (result.exitCode != 0) {

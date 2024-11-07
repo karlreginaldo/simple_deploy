@@ -1,3 +1,6 @@
+## 0.9.0
+- Improved documentation
+
 ## 0.8.0
 - Show that android is auto selected if not on a mac
 

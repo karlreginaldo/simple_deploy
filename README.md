@@ -21,8 +21,26 @@ Deploy to iOS Test Flight
 Deploy to Android Play Store Test Track
 
 ## Getting started
+Install the dependency into your `pubspec.yaml` with the follow
+
+```
+dev_dependencies
+  simple_deploy: latest_version (e.g. ^0.8.0)
+```
 
 Create a `deploy.yaml` file at the root of your project and configure it
+
+Here is an example version of `deploy.yaml`
+```
+android:
+  credentialsFile: "c:/credentials/project-ha4udk.json"
+  packageName: "com.example.coolapp"
+  whatsNew: "Simple bug fixes"
+
+ios:
+  apiKey: "ABCD1A4A12"
+  apiIssuer: "76a6aa66-e80a-67e9-e987-6a1c711a4b2
+```
 
 
 ## Usage
@@ -34,5 +52,12 @@ You can also supply the platform with
  - `dart run simple_deploy ios`
 
 ## Additional information
+You'll need to get some developer details from App Store connect for the deploy.yaml file
+You will also need to set up a google cloud project to create the `.json` file required for android.
+See steps below of these:
 
-TODO: This will show the steps to configure App Store Connect Data, and Play store deployment information
+### Android configuration
+TODO
+
+### iOS configuration
+TODO

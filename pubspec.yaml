@@ -1,6 +1,13 @@
+# to publish
+# update the CHANGELOG.md
+# updated the pubspec.yaml file version
+# Run:
+#  `dart pub publish`
+
+
 name: simple_deploy
 description: A quick and easy way to push deployment to Test Flight and the play store internal test track
-version: 0.8.0
+version: 0.9.0
 homepage: https://github.com/andrewpmoore/simple_deploy
 
 

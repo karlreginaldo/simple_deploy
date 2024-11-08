@@ -1,3 +1,6 @@
+## 0.17.0
+- Fix for script continuing if versionStrategy was invalid
+
 ## 0.16.0
 - Bug fixes
 

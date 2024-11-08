@@ -104,7 +104,7 @@ Future<void> handleVersionStrategy() async {
     // Do nothing
   } else {
     print('Invalid versionStrategy. Valid values are `none` and `pubspecIncrement`.');
-    return;
+    exit(1);
   }
 }
 

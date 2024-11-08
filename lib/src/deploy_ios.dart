@@ -17,8 +17,16 @@ Future<void> deploy() async {
   final config = await loadConfig(workingDirectory, 'ios');
 
   // Run iOS deployment
-  final apiKey = config['teamKeyId'];
-  final apiIssuer = config['developerId'];
+  final apiKey = config?['teamKeyId'];
+  if (apiKey==null){
+    print('No teamKeyId supplied');
+    exit(1);
+  }
+  final apiIssuer = config?['developerId'];
+  if (apiIssuer==null){
+    print('No developerId supplied');
+    exit(1);
+  }
 
   DateTime startTime = DateTime.now();
 

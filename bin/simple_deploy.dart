@@ -93,8 +93,13 @@ Future<void> deployAll() async {
 
 Future<void> handleVersionStrategy() async {
   final workingDirectory = Directory.current.path;
-  final config = await loadConfig(workingDirectory, 'common');
-  final versionStrategy = config['versionStrategy'] ?? 'none';
+  String versionStrategy = 'none';
+  try {
+    final config = await loadConfig(workingDirectory, 'common');
+    versionStrategy = config?['versionStrategy'] ?? 'none';
+  } catch (e) {
+    //
+  }
   print('versionStrategy: $versionStrategy');
 
 

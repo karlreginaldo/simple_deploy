@@ -8,10 +8,18 @@ import 'common.dart';
 Future<void> deploy() async {
   final workingDirectory = Directory.current.path;
   final config = await loadConfig(workingDirectory, 'android');
-  final credentialsFile0 = config['credentialsFile'];
-  final packageName = config['packageName'];
-  final whatsNew = config['whatsNew'];
-  final trackName = config['trackName']??'internal';
+  final credentialsFile0 = config?['credentialsFile'];
+  if (credentialsFile0==null){
+    print('No credentialsFile supplied');
+    exit(1);
+  }
+  final packageName = config?['packageName'];
+  if (packageName==null){
+    print('No packageName supplied');
+    exit(1);
+  }
+  final whatsNew = config?['whatsNew']??'No changes supplied';
+  final trackName = config?['trackName']??'internal';
 
   DateTime startTime = DateTime.now();
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 // Load configuration from a YAML file
-Future<YamlMap> loadConfig(String workingDirectory, String section) async {
+Future<YamlMap?> loadConfig(String workingDirectory, String section) async {
   final configFile = File('$workingDirectory/deploy.yaml');
   final configContent = await configFile.readAsString();
   final yamlMap = loadYaml(configContent);
@@ -13,8 +13,13 @@ Future<YamlMap> loadConfig(String workingDirectory, String section) async {
   for (var key in yamlMap.keys) {
     configMap[key] = yamlMap[key];
   }
-  return configMap[section];
-}
+
+  final sectionMap = configMap[section];
+  if (sectionMap is YamlMap) {
+    return sectionMap;
+  } else {
+    return null;
+  }}
 
 Future<bool> flutterClean(String workingDirectory) async{
   print('Clean the project');

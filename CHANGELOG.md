@@ -1,3 +1,6 @@
+## 0.18.0
+- Better validation if the deploy.yaml is missing parameters
+
 ## 0.17.0
 - Fix for script continuing if versionStrategy was invalid
 

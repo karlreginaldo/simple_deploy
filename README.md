@@ -31,10 +31,9 @@ ios:
 
 Here's the step-by-step instructions for configuring for each platform
 
-[Android configuration](https://raw.githubusercontent.com/andrewpmoore/simple_deploy/refs/heads/main/android.md)
+[Android configuration](https://github.com/andrewpmoore/simple_deploy/blob/main/android.md)
 
-[iOS configuration](https://raw.githubusercontent.com/andrewpmoore/simple_deploy/refs/heads/main/ios.md)
-
+[iOS configuration](https://github.com/andrewpmoore/simple_deploy/blob/main/ios.md)
 
 ## Usage
 
@@ -50,7 +49,7 @@ You will also need to set up a google cloud project to create the `.json` file r
 See steps below of these:
 
 ### Android configuration
-[Android configuration](android.md)
+[Android configuration](https://github.com/andrewpmoore/simple_deploy/blob/main/android.md)
 
 ### iOS configuration
-[iOS configuration](ios.md)
+[iOS configuration](https://github.com/andrewpmoore/simple_deploy/blob/main/ios.md)

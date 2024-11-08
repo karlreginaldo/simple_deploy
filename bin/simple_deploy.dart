@@ -66,16 +66,22 @@ Future<void> promptAndDeploy() async {
 }
 
 Future<void> deployIos() async {
+  handleVersionStrategy();
+
   print('Deploying to iOS...');
   await ios.deploy();
 }
 
 Future<void> deployAndroid() async {
+  handleVersionStrategy();
+
   print('Deploying to Android...');
   await android.deploy();
 }
 
 Future<void> deployAll() async {
+  handleVersionStrategy();
+
   print('Deploying to all platforms...');
   await deployAndroid();
   if (Platform.isMacOS) {
@@ -88,7 +94,9 @@ Future<void> deployAll() async {
 Future<void> handleVersionStrategy() async {
   final workingDirectory = Directory.current.path;
   final config = await loadConfig(workingDirectory, 'common');
-  final versionStrategy = config['trackName'] ?? 'none';
+  final versionStrategy = config['versionStrategy'] ?? 'none';
+  print('versionStrategy: $versionStrategy');
+
 
   if (versionStrategy == 'pubspecIncrement') {
     await incrementBuildNumber();

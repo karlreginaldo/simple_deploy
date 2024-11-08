@@ -1,3 +1,6 @@
+## 0.16.0
+- Bug fixes
+
 ## 0.15.0
 - Added the `versionStrategy` so it can auto increment the pubspec.yaml build number on each run
 

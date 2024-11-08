@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:simple_deploy/src/common.dart';
 import 'package:simple_deploy/src/deploy_android.dart' as android;
 import 'package:simple_deploy/src/deploy_ios.dart' as ios;
+import 'package:yaml/yaml.dart';
+import 'package:yaml_edit/yaml_edit.dart';
 
 bool checkDeployFile() {
   final workingDirectory = Directory.current.path;
@@ -15,19 +18,15 @@ void main(List<String> arguments) async {
     return;
   }
 
-  // Check if arguments are passed
   if (arguments.isEmpty) {
-    // No arguments, ask the user for input
     await promptAndDeploy();
   } else {
-    // Arguments are passed, assume they are 'ios' or 'android'
     String target = arguments[0].toLowerCase();
     if (target == 'ios') {
       if (Platform.isMacOS) {
         await deployIos();
-      }
-      else{
-        print('Error: You can only deploy to test flight on from MacOS');
+      } else {
+        print('Error: You can only deploy to iOS from MacOS.');
         return;
       }
     } else if (target == 'android') {
@@ -38,46 +37,85 @@ void main(List<String> arguments) async {
   }
 }
 
-// Prompt the user to choose iOS or Android for deployment
 Future<void> promptAndDeploy() async {
   if (Platform.isMacOS) {
     print('Choose deployment target:');
     print('1. Android');
     print('2. iOS');
-  }
-  else{
-    print('Automatically selecting android build and deploy');
+    print('a. All platforms');
+    print('q. Quit');
+  } else {
+    print('Automatically selecting Android build and deploy');
   }
 
-  // Read user input
-  String? choice;
-  if (Platform.isMacOS) {
-    choice = stdin.readLineSync();
-  } else {
-    choice = '1';
-  }
+  String? choice = Platform.isMacOS ? stdin.readLineSync() : '1';
 
   if (choice == '1') {
     await deployAndroid();
   } else if (choice == '2') {
     await deployIos();
+  } else if (choice == 'a') {
+    await deployAll();
+  } else if (choice == 'q') {
+    print('Quitting deployment.');
   } else {
-    if (Platform.isMacOS) {
-      print('Invalid choice. Please enter 1 or 2.');
-    } else {
-      print('Invalid choice. Please enter 1');
-    }
+    print(Platform.isMacOS
+        ? 'Invalid choice. Please enter 1, 2, a, or q.'
+        : 'Invalid choice. Please enter 1.');
   }
 }
 
-// Run iOS deployment
 Future<void> deployIos() async {
   print('Deploying to iOS...');
-  ios.deploy();
+  await ios.deploy();
 }
 
-// Run Android deployment
 Future<void> deployAndroid() async {
   print('Deploying to Android...');
-  android.deploy();
+  await android.deploy();
+}
+
+Future<void> deployAll() async {
+  print('Deploying to all platforms...');
+  await deployAndroid();
+  if (Platform.isMacOS) {
+    await deployIos();
+  } else {
+    print('iOS deployment is only available on MacOS.');
+  }
+}
+
+Future<void> handleVersionStrategy() async {
+  final workingDirectory = Directory.current.path;
+  final config = await loadConfig(workingDirectory, 'common');
+  final versionStrategy = config['trackName'] ?? 'none';
+
+  if (versionStrategy == 'pubspecIncrement') {
+    await incrementBuildNumber();
+  } else if (versionStrategy == 'none') {
+    // Do nothing
+  } else {
+    print('Invalid versionStrategy. Valid values are `none` and `pubspecIncrement`.');
+    return;
+  }
+}
+
+Future<void> incrementBuildNumber() async {
+  final pubspecFile = File('pubspec.yaml');
+  final pubspecContent = await pubspecFile.readAsString();
+
+  final doc = loadYaml(pubspecContent);
+  final editor = YamlEditor(pubspecContent);
+
+  final currentVersion = doc['version'] as String;
+  final versionParts = currentVersion.split('+');
+  final versionNumber = versionParts[0];
+  final currentBuildNumber = int.parse(versionParts.length > 1 ? versionParts[1] : '0');
+
+  final newBuildNumber = currentBuildNumber + 1;
+  final newVersion = '$versionNumber+$newBuildNumber';
+
+  editor.update(['version'], newVersion);
+  await pubspecFile.writeAsString(editor.toString());
+  print('Updated build number to $newBuildNumber in pubspec.yaml');
 }

@@ -1,5 +1,8 @@
+## 0.15.0
+- Added the `versionStrategy` so it can auto increment the pubspec.yaml build number on each run
+
 ## 0.14.0
-- Document improvements
+- Added the ability to add the track to android builds
 
 ## 0.13.0
 - Document improvements

@@ -12,7 +12,7 @@ void handleError(String message) {
 
 
 
-void deploy() async {
+Future<void> deploy() async {
   final workingDirectory = Directory.current.path;
   final config = await loadConfig(workingDirectory, 'ios');
 

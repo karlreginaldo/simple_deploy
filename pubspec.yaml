@@ -7,7 +7,7 @@
 
 name: simple_deploy
 description: A quick and easy way to push deployment to Test Flight and the play store internal test track
-version: 0.14.0
+version: 0.15.0
 homepage: https://github.com/andrewpmoore/simple_deploy
 
 
@@ -20,6 +20,7 @@ dependencies:
   googleapis: ^13.2.0  #play store api access
   http: ^1.2.2  #connection to play store api
   yaml: ^3.1.0  #load the yaml file
+  yaml_edit: ^2.2.1
 
 dev_dependencies:
   lints: ^4.0.0

@@ -332,13 +332,19 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "yaml_edit",
+      "rootUri": "file:///C:/Users/Andrew/AppData/Local/Pub/Cache/hosted/pub.dev/yaml_edit-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "simple_deploy",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-11-08T14:58:45.522963Z",
+  "generated": "2024-11-08T15:16:41.016386Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///c:/flutter",

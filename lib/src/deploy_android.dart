@@ -5,7 +5,7 @@ import 'package:googleapis_auth/auth_io.dart';
 
 import 'common.dart';
 
-void deploy() async {
+Future<void> deploy() async {
   final workingDirectory = Directory.current.path;
   final config = await loadConfig(workingDirectory, 'android');
   final credentialsFile0 = config['credentialsFile'];

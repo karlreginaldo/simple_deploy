@@ -19,6 +19,9 @@ Create a `deploy.yaml` file at the root of your project and configure it
 
 Here is an example version of `deploy.yaml`
 ```
+common:
+  versionStrategy: "none"
+
 android:
   credentialsFile: "c:/credentials/project-credentials.json"
   packageName: "com.example.coolapp"
@@ -30,7 +33,19 @@ ios:
   developerId: "76a6aa66-e80a-67e9-e987-6a1c711a4b2
 ```
 
-Valid `trackName` values for android are `internal`, `alpha`, `beta` and `production`
+| `versionStrategy` Value | Description                                                                                               |
+|-------------------------|-----------------------------------------------------------------------------------------------------------|
+| `none`                  | Uses the current value in the `pubspec`.                                                                  |
+| `pubspecIncrement`      | Retrieves the current build number from the `pubspec`, increments it by one, and uses the updated number. |
+
+
+
+| `trackName` Value | Description                                  |
+|-------------------|----------------------------------------------|
+| `internal`        | Deploys to the internal track.              |
+| `alpha`           | Deploys to the alpha track.                 |
+| `beta`            | Deploys to the beta track.                  |
+| `production`      | Deploys to the production track.            |
 
 Here's the step-by-step instructions for configuring for each platform
 

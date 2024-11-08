@@ -30,8 +30,10 @@ ios:
 ```
 
 Here's the step-by-step instructions for configuring for each platform
-[Android configuration](android.md)
-[iOS configuration](ios.md)
+
+[Android configuration](https://raw.githubusercontent.com/andrewpmoore/simple_deploy/refs/heads/main/android.md)
+
+[iOS configuration](https://raw.githubusercontent.com/andrewpmoore/simple_deploy/refs/heads/main/ios.md)
 
 
 ## Usage

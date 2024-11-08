@@ -1,17 +1,4 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-
-simple_deploy is a quick and easy way to deploy apps to the stores test systems
+simple_deploy is a quick and easy way to deploy apps to the store's test systems
 
 NOTE: This is very much a work-in-progress package at the moment, until it reaches version 1.0
 
@@ -33,14 +20,18 @@ Create a `deploy.yaml` file at the root of your project and configure it
 Here is an example version of `deploy.yaml`
 ```
 android:
-  credentialsFile: "c:/credentials/project-ha4udk.json"
+  credentialsFile: "c:/credentials/project-credentials.json"
   packageName: "com.example.coolapp"
   whatsNew: "Simple bug fixes"
 
 ios:
-  apiKey: "ABCD1A4A12"
-  apiIssuer: "76a6aa66-e80a-67e9-e987-6a1c711a4b2
+  teamKeyId: "ABCD1A4A12"
+  developerId: "76a6aa66-e80a-67e9-e987-6a1c711a4b2
 ```
+
+Here's the step-by-step instructions for configuring for each platform
+[Android configuration](android.md)
+[iOS configuration](ios.md)
 
 
 ## Usage
@@ -57,7 +48,7 @@ You will also need to set up a google cloud project to create the `.json` file r
 See steps below of these:
 
 ### Android configuration
-TODO
+[Android configuration](android.md)
 
 ### iOS configuration
-TODO
+[iOS configuration](ios.md)

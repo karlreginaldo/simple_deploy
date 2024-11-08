@@ -1,3 +1,7 @@
+## 0.12.0
+- Added android documentation for configuration
+- Changed the iOS properties to match what they are called in app store connect
+
 ## 0.11.0
 - Attempt to fix deployments on iOS not working
 

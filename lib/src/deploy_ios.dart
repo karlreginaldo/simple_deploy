@@ -17,8 +17,8 @@ void deploy() async {
   final config = await loadConfig(workingDirectory, 'ios');
 
   // Run iOS deployment
-  final apiKey = config['apiKey'];
-  final apiIssuer = config['apiIssuer'];
+  final apiKey = config['teamKeyId'];
+  final apiIssuer = config['developerId'];
 
   DateTime startTime = DateTime.now();
 

@@ -22,12 +22,15 @@ Here is an example version of `deploy.yaml`
 android:
   credentialsFile: "c:/credentials/project-credentials.json"
   packageName: "com.example.coolapp"
+  trackName: "internal"
   whatsNew: "Simple bug fixes"
 
 ios:
   teamKeyId: "ABCD1A4A12"
   developerId: "76a6aa66-e80a-67e9-e987-6a1c711a4b2
 ```
+
+Valid `trackName` values for android are `internal`, `alpha`, `beta` and `production`
 
 Here's the step-by-step instructions for configuring for each platform
 

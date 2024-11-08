@@ -11,6 +11,7 @@ void deploy() async {
   final credentialsFile0 = config['credentialsFile'];
   final packageName = config['packageName'];
   final whatsNew = config['whatsNew'];
+  final trackName = config['trackName']??'internal';
 
   DateTime startTime = DateTime.now();
 
@@ -45,12 +46,12 @@ void deploy() async {
     final uploadResponse = await androidPublisher.edits.bundles.upload(packageName, editId, uploadMedia: media);
     print("Bundle version code: ${uploadResponse.versionCode}");
 
-    print('Assign to internal track');
+    print('Assign to $trackName track');
     final track = Track(
-      track: 'internal',
+      track: trackName,
       releases: [
         TrackRelease(
-          name: 'Internal Test Release',
+          name: '${trackName.capitalize()} Release',
           status: 'completed',
           versionCodes: [uploadResponse.versionCode!.toString()],
           releaseNotes: [
@@ -62,8 +63,8 @@ void deploy() async {
         ),
       ],
     );
-    await androidPublisher.edits.tracks.update(track, packageName, editId, 'internal');
-    print("Assigned bundle to internal track with release notes");
+    await androidPublisher.edits.tracks.update(track, packageName, editId, trackName);
+    print("Assigned bundle to $trackName track with release notes");
 
     await androidPublisher.edits.commit(packageName, editId);
     print("Edit committed, upload complete.");
@@ -74,3 +75,11 @@ void deploy() async {
     print('Time taken: ${DateTime.now().difference(startTime)}');
   }
 }
+
+extension StringExtension on String {
+  String capitalize() {
+    return this[0].toUpperCase() + substring(1);
+  }
+}
+
+

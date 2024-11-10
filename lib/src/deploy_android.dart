@@ -19,7 +19,8 @@ Future<void> deploy() async {
     exit(1);
   }
   final whatsNew = config?['whatsNew']??'No changes supplied';
-  final trackName = config?['trackName']??'internal';
+  final trackNameRaw = config?['trackName'] ?? 'internal';
+  final trackName = trackNameRaw.toString();
 
   DateTime startTime = DateTime.now();
 

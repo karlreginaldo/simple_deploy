@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
-// Global variable to hold the active timer
-Timer? _loadingTimer;
+Timer? _loadingTimer; // Timer reference to control the animation cycle
 
-// Reusable loading indicator function
 void startLoading(String message) {
-  stopLoading();
+  stopLoading(); // Stop any existing loading animation first
 
-  int milliseconds = 0; // Milliseconds counter for accurate tracking
-  int seconds = 0; // Seconds counter for display
+  int frameIndex = 0; // Index to cycle through the frames "|", "\", "/", "-"
+
+  // The frames for the animation
+  const frames = ['|', '\\', '/', '-'];
 
   // ANSI escape codes for color formatting
   const grey = '\x1b[38;5;245m';
@@ -18,24 +18,22 @@ void startLoading(String message) {
   // Print the initial message
   stdout.write(message);
 
-  // Start the periodic timer to increment the milliseconds counter
-  _loadingTimer = Timer.periodic(Duration(milliseconds: 1), (timer) {
-    milliseconds++; // Increment milliseconds
-    
-    // Read about miliseconds :https://www.quora.com/Why-are-the-100-parts-of-a-second-on-a-stopwatch-referred-to-as-milliseconds-and-not-centiseconds
-    if (milliseconds >= 100) {
-      milliseconds = 0; // Reset milliseconds to 0 after a second
-      seconds++; // Increment the seconds counter
-    }
+  // Start the periodic timer to animate the rotating symbol
+  _loadingTimer = Timer.periodic(Duration(milliseconds: 250), (timer) {
+    String currentFrame = frames[frameIndex]; // Get the current frame
 
-    stdout.write('\r$message $grey($seconds.${milliseconds}s)$reset');
+    stdout.write(
+        '\r$message $grey$currentFrame$reset'); // Update the animation frame
     stdout.flush();
+
+    // Cycle to the next frame
+    frameIndex = (frameIndex + 1) % frames.length;
   });
 }
 
 // Function to stop the loading timer (can be called from anywhere)
 void stopLoading() {
-  stdout.write('\n');
+  stdout.write('\n'); // Move to a new line after the loading is stopped
   if (_loadingTimer != null) {
     _loadingTimer!.cancel(); // Cancel the timer
     _loadingTimer = null; // Clear the loading timer reference

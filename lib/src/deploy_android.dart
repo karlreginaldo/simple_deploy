@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:googleapis/androidpublisher/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:simple_deploy/src/loading.dart';
 
 import 'common.dart';
 
@@ -23,13 +24,13 @@ Future<void> deploy() async {
   final trackName = trackNameRaw.toString();
 
   DateTime startTime = DateTime.now();
-
+  startLoading('Clean project');
   bool success = await flutterClean(workingDirectory);
   if (!success){
     return;
   }
 
-  print('Build app bundle');
+  startLoading('Build app bundle');
   var result = await Process.run('flutter', ['build', 'appbundle'], workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
     print('flutter build appbundle failed: ${result.stderr}');
@@ -37,19 +38,19 @@ Future<void> deploy() async {
   }
   print('App bundle built successfully');
 
-  print('Get service account');
+  startLoading('Get service account');
   File credentialsFile = File(credentialsFile0);
   final credentials = ServiceAccountCredentials.fromJson(json.decode(credentialsFile.readAsStringSync()));
   final httpClient = await clientViaServiceAccount(credentials, [AndroidPublisherApi.androidpublisherScope]);
 
   try {
-    print('Get Edit ID');
+    startLoading('Get Edit ID');
     final androidPublisher = AndroidPublisherApi(httpClient);
     final insertEdit = await androidPublisher.edits.insert(AppEdit(), packageName);
     final editId = insertEdit.id!;
     print("Edit ID: $editId");
 
-    print('Upload app bundle');
+    startLoading('Upload app bundle');
     final aabFile = File('$workingDirectory/build/app/outputs/bundle/release/app-release.aab');
     final media = Media(aabFile.openRead(), aabFile.lengthSync());
     final uploadResponse = await androidPublisher.edits.bundles.upload(packageName, editId, uploadMedia: media);
@@ -82,6 +83,7 @@ Future<void> deploy() async {
   } finally {
     httpClient.close();
     print('Time taken: ${DateTime.now().difference(startTime)}');
+    stopLoading();
   }
 }
 

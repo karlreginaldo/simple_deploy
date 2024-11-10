@@ -26,6 +26,7 @@ Future<void> deploy() async {
   DateTime startTime = DateTime.now();
   bool success = await flutterClean(workingDirectory);
   if (!success){
+    stopLoading();
     return;
   }
 
@@ -33,6 +34,7 @@ Future<void> deploy() async {
   var result = await Process.run('flutter', ['build', 'appbundle'], workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
     print('flutter build appbundle failed: ${result.stderr}');
+    stopLoading();
     return;
   }
   print('App bundle built successfully');

@@ -24,7 +24,6 @@ Future<void> deploy() async {
   final trackName = trackNameRaw.toString();
 
   DateTime startTime = DateTime.now();
-  startLoading('Clean project');
   bool success = await flutterClean(workingDirectory);
   if (!success){
     return;

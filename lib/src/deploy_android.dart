@@ -33,6 +33,7 @@ Future<void> deploy() async {
 
   startLoading('Build app bundle');
   final targetFile = config?['targetFile'] ?? 'lib/main.dart';
+  print('\nTarget file: $targetFile');
   var result = await Process.run(
       'flutter', ['build', 'appbundle', '-t', targetFile],
       workingDirectory: workingDirectory, runInShell: true);
@@ -45,6 +46,8 @@ Future<void> deploy() async {
 
   startLoading('Get service account');
   File credentialsFile = File(credentialsFile0);
+  print('Service account obtained $credentialsFile');
+
   final credentials = ServiceAccountCredentials.fromJson(
       json.decode(credentialsFile.readAsStringSync()));
   final httpClient = await clientViaServiceAccount(

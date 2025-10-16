@@ -33,6 +33,7 @@ Future<void> deploy() async {
 
   print('Build the iOS .ipa');
   final targetFile = config?['targetFile'] ?? 'lib/main.dart';
+  print('\nTarget file: $targetFile');
   var result = await Process.run('flutter', ['build', 'ipa', '-t', targetFile],
       workingDirectory: workingDirectory, runInShell: true);
   if (result.exitCode != 0) {
@@ -50,7 +51,7 @@ Future<void> deploy() async {
         '--type',
         'ios',
         '--file',
-        '$workingDirectory/build/ios/ipa/app.ipa',
+        '$workingDirectory/build/ios/ipa/ServeBeez.ipa',
         '--apiKey',
         apiKey,
         '--apiIssuer',
